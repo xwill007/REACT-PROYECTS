@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, useGLTF } from '@react-three/drei'
+import { OrbitControls } from '@react-three/drei'
 import { useState, Suspense } from 'react'
+import { VRgirl } from './components/models/VRgirl'
 
 function Box(props) {
   // State for hover and active effects
@@ -20,14 +21,6 @@ function Box(props) {
   )
 }
 
-// Create a component for the GLB model
-function DuckModel(props) {
-  // Using the classic Duck model from glTF sample models
-  const { scene } = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/duck/model.gltf')
-  
-  return <primitive object={scene} {...props} />
-}
-
 export default function App() {
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
@@ -41,7 +34,7 @@ export default function App() {
         
         {/* Wrap the model in a Suspense component to handle loading */}
         <Suspense fallback={null}>
-          <DuckModel position={[0, 0, 0]} scale={2} rotation={[0, Math.PI / 4, 0]} />
+          <VRgirl position={[0, -3.0, 0]} scale={2} rotation={[0, Math.PI / 4, 0]} />
         </Suspense>
         
         <OrbitControls />
@@ -49,6 +42,3 @@ export default function App() {
     </div>
   )
 }
-
-// Preload the model for better performance
-useGLTF.preload('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/duck/model.gltf')
