@@ -39,9 +39,16 @@ export const VRgirl = forwardRef((props, ref) => {
     }
   }, [actions, names, animationIndex])
   
+  // Corregimos la orientación del modelo para que mire hacia el frente
+  // Aplicamos un giro de 180 grados (Math.PI) para que mire en la dirección correcta
+  const baseRotation = props.baseRotation || [0, Math.PI, 0]
+  
   return (
     <group ref={combinedRef} onClick={handleClick} {...props}>
-      <primitive object={scene} />
+      {/* Grupo adicional para aplicar la rotación base */}
+      <group rotation={baseRotation}>
+        <primitive object={scene} />
+      </group>
     </group>
   )
 })

@@ -62,13 +62,21 @@ export function MovementControls({ target }) {
     const currentSpeed = keys.current.shift ? SPEED * 2 : SPEED
     const rotationSpeed = keys.current.shift ? ROTATION_SPEED * 2 : ROTATION_SPEED
     
-    // Actualiza la posición para adelante/atrás
-    if (keys.current.forward) target.current.position.z -= currentSpeed
-    if (keys.current.backward) target.current.position.z += currentSpeed
-    
     // Rotación para izquierda/derecha
     if (keys.current.left) target.current.rotation.y += rotationSpeed
     if (keys.current.right) target.current.rotation.y -= rotationSpeed
+    
+    // Calcular dirección adelante/atrás basada en la rotación actual
+    if (keys.current.forward) {
+      // Usar trigonometría para moverse en la dirección a la que apunta
+      target.current.position.x -= Math.sin(target.current.rotation.y) * currentSpeed
+      target.current.position.z -= Math.cos(target.current.rotation.y) * currentSpeed
+    }
+    if (keys.current.backward) {
+      // Lo mismo pero en dirección contraria
+      target.current.position.x += Math.sin(target.current.rotation.y) * currentSpeed
+      target.current.position.z += Math.cos(target.current.rotation.y) * currentSpeed
+    }
   })
   
   // Instrucciones actualizadas
