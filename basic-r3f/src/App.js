@@ -1,7 +1,8 @@
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
-import { useState, Suspense } from 'react'
+import { useState, Suspense, useRef } from 'react'
 import { VRgirl } from './components/models/VRgirl'
+import { MovementControls } from './components/controls/MovementControls'
 
 function Box(props) {
   // State for hover and active effects
@@ -22,6 +23,9 @@ function Box(props) {
 }
 
 export default function App() {
+  // Referencia al modelo para controlar su movimiento
+  const vrgirlRef = useRef()
+  
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <Canvas>
@@ -29,13 +33,18 @@ export default function App() {
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
         <pointLight position={[-10, -10, -10]} />
         
-        <Box position={[-1.5, 0, 0]} />
-        <Box position={[1.5, 0, 0]} />
-        
         {/* Wrap the model in a Suspense component to handle loading */}
         <Suspense fallback={null}>
-          <VRgirl position={[0, -3.0, 0]} scale={2} rotation={[0, Math.PI / 4, 0]} />
+          <VRgirl 
+            ref={vrgirlRef}
+            position={[0, -3.0, 0]} 
+            scale={2} 
+            rotation={[0, Math.PI / 4, 0]} 
+          />
         </Suspense>
+        
+        {/* Añadimos el componente de control de movimiento */}
+        <MovementControls target={vrgirlRef} />
         
         <OrbitControls />
       </Canvas>
