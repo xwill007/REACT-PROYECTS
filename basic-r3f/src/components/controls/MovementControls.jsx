@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Text } from '@react-three/drei'
 
 // Velocidad de movimiento y rotación
 const SPEED = 0.1
