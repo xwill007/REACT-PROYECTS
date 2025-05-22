@@ -19,6 +19,21 @@ export const VRgirl = forwardRef((props, ref) => {
   // Para rastrear qué teclas están presionadas
   const pressedKeys = useRef(new Set())
   
+  // Establece la animación inicial específica cuando se cargan las animaciones
+  useEffect(() => {
+    if (names && names.length > 0) {
+      // Busca el índice de la animación específica
+      const targetAnimationName = 'Armature|mixamo.com|Layer0.002';
+      const animationIndex = names.findIndex(name => name === targetAnimationName);
+      
+      if (animationIndex !== -1) {
+        // Si encontramos la animación, establecemos su índice
+        setCustomAnimationIndex(animationIndex);
+        console.log(`Animación inicial establecida: ${targetAnimationName}`);
+      }
+    }
+  }, [names]);
+  
   // Función para encontrar la mejor animación por nombre
   const findAnimation = (keywords) => {
     if (!names || names.length === 0) return null;
