@@ -1,5 +1,5 @@
+import { useState, useEffect, useRef, forwardRef, useCallback } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
-import { useState, useEffect, useRef, forwardRef } from 'react'
 
 export const VRgirl = forwardRef((props, ref) => {
   const group = useRef()
@@ -19,6 +19,22 @@ export const VRgirl = forwardRef((props, ref) => {
   // Para rastrear qué teclas están presionadas
   const pressedKeys = useRef(new Set())
   
+  // Función para encontrar la mejor animación por nombre - optimizada con useCallback
+  const findAnimation = useCallback((keywords) => {
+    if (!names || names.length === 0) return null;
+    
+    // Buscar una animación que contenga alguna de las palabras clave
+    for (const keyword of keywords) {
+      const found = names.find(name => 
+        name.toLowerCase().includes(keyword.toLowerCase())
+      );
+      if (found) return found;
+    }
+    
+    // Si no encontramos ninguna, devolvemos la primera
+    return names[0];
+  }, [names]); // Solo depende de names
+  
   // Establece la animación inicial específica cuando se cargan las animaciones
   useEffect(() => {
     if (names && names.length > 0) {
@@ -33,22 +49,6 @@ export const VRgirl = forwardRef((props, ref) => {
       }
     }
   }, [names]);
-  
-  // Función para encontrar la mejor animación por nombre
-  const findAnimation = (keywords) => {
-    if (!names || names.length === 0) return null;
-    
-    // Buscar una animación que contenga alguna de las palabras clave
-    for (const keyword of keywords) {
-      const found = names.find(name => 
-        name.toLowerCase().includes(keyword.toLowerCase())
-      );
-      if (found) return found;
-    }
-    
-    // Si no encontramos ninguna, devolvemos la primera
-    return names[0];
-  };
   
   // Detectar teclas presionadas para animaciones
   useEffect(() => {
@@ -131,7 +131,7 @@ export const VRgirl = forwardRef((props, ref) => {
       console.log(`Reproduciendo animación: ${animationName}`);
       actions[animationName].reset().play();
     }
-  }, [actions, names, animationState, customAnimationIndex]);
+  }, [actions, names, animationState, customAnimationIndex, findAnimation]); // Incluimos findAnimation aquí
   
   // Corregimos la orientación del modelo para que mire hacia el frente
   const baseRotation = props.baseRotation || [0, Math.PI, 0]
