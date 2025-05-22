@@ -79,39 +79,4 @@ export function MovementControls({ target }) {
     }
   })
   
-  // Instrucciones actualizadas
-  return (
-    <group>
-      <Text
-        position={[0, 2, 0]}
-        color="white"
-        fontSize={0.3}
-        anchorX="center"
-        anchorY="middle"
-        outlineWidth={0.02}
-        outlineColor="#000000">
-        ↑↓ Flechas para avanzar/retroceder
-      </Text>
-      <Text
-        position={[0, 1.5, 0]}
-        color="white"
-        fontSize={0.3}
-        anchorX="center"
-        anchorY="middle"
-        outlineWidth={0.02}
-        outlineColor="#000000">
-        ←→ Flechas para rotar
-      </Text>
-      <Text
-        position={[0, 1.0, 0]}
-        color="white"
-        fontSize={0.3}
-        anchorX="center"
-        anchorY="middle"
-        outlineWidth={0.02}
-        outlineColor="#000000">
-        Clic en el modelo para cambiar animación
-      </Text>
-    </group>
-  )
 }

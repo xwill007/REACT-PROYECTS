@@ -1,26 +1,8 @@
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
-import { useState, Suspense, useRef } from 'react'
+import { OrbitControls, Text } from '@react-three/drei' // Importa Text desde drei
+import { Suspense, useRef } from 'react'
 import { VRgirl } from './components/models/VRgirl'
 import { MovementControls } from './components/controls/MovementControls'
-
-function Box(props) {
-  // State for hover and active effects
-  const [hovered, setHover] = useState(false)
-  const [active, setActive] = useState(false)
-  
-  return (
-    <mesh
-      {...props}
-      scale={active ? 1.5 : 1}
-      onClick={() => setActive(!active)}
-      onPointerOver={() => setHover(true)}
-      onPointerOut={() => setHover(false)}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
-    </mesh>
-  )
-}
 
 export default function App() {
   // Referencia al modelo para controlar su movimiento
@@ -40,11 +22,25 @@ export default function App() {
             position={[0, -3.0, 0]} 
             scale={2} 
             rotation={[0, Math.PI / 4, 0]} 
+            baseRotation={[0, Math.PI, 0]} // Para que mire hacia adelante
           />
         </Suspense>
         
         {/* Añadimos el componente de control de movimiento */}
         <MovementControls target={vrgirlRef} />
+
+        {/* Reemplazamos a-text por Text de drei */}
+        <Text
+          position={[-5, 3, 0]}
+          color="#000000"
+          fontSize={0.3}
+          anchorX="left"
+          anchorY="middle"
+          outlineWidth={0.02}
+          outlineColor="#ffffff"
+        >
+          ↑↓ Flechas: avanzar/retroceder | ←→ Flechas: rotar | Clic: cambiar animación
+        </Text>
         
         <OrbitControls />
       </Canvas>
